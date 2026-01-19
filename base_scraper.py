@@ -1,9 +1,7 @@
 """
 Base scraper module with common functionality for all platform scrapers.
 """
-import re
-import time
-from typing import List, Dict, Optional
+from typing import List, Dict
 from abc import ABC, abstractmethod
 
 

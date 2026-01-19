@@ -54,6 +54,12 @@ OUTPUT_FORMAT=csv          # csv ou json
 MAX_RESULTS_PER_PLATFORM=50
 ```
 
+**⚠️ IMPORTANTE - Segurança:**
+- Nunca compartilhe seu arquivo `.env` ou commit ele ao repositório
+- Use variáveis de ambiente do sistema para produção
+- Considere usar um gerenciador de credenciais seguro (ex: AWS Secrets Manager, Azure Key Vault)
+- Para Instagram, prefira usar a API oficial (Instagram Graph API) em vez de credenciais de login
+
 ## 📖 Uso
 
 ### Uso Básico

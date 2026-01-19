@@ -97,10 +97,17 @@ class LeadScraper:
         os.makedirs('output', exist_ok=True)
         filepath = os.path.join('output', filename)
         
-        leads_data = [lead.to_dict() for lead in self.all_leads]
+        # Convert leads to dict (generator-friendly approach for large datasets)
+        leads_data = (lead.to_dict() for lead in self.all_leads)
         
         with open(filepath, 'w', encoding='utf-8') as jsonfile:
-            json.dump(leads_data, jsonfile, indent=2, ensure_ascii=False)
+            # Write JSON manually for better memory efficiency with large datasets
+            jsonfile.write('[\n')
+            for i, lead_dict in enumerate(leads_data):
+                if i > 0:
+                    jsonfile.write(',\n')
+                json.dump(lead_dict, jsonfile, indent=2, ensure_ascii=False)
+            jsonfile.write('\n]')
         
         print(f"💾 Leads exported to: {filepath}")
         return filepath
@@ -145,7 +152,12 @@ def main():
     print("=" * 60 + "\n")
     
     # Configuration
-    max_results = int(os.getenv('MAX_RESULTS_PER_PLATFORM', 50))
+    try:
+        max_results = int(os.getenv('MAX_RESULTS_PER_PLATFORM', 50))
+    except ValueError:
+        print("⚠️  Invalid MAX_RESULTS_PER_PLATFORM value. Using default: 50")
+        max_results = 50
+    
     output_format = os.getenv('OUTPUT_FORMAT', 'csv').lower()
     
     # Initialize scraper
